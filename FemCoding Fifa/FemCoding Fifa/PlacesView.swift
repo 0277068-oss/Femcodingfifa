@@ -13,7 +13,7 @@ struct PlacesView: View {
                             .scaledToFit()
                             .frame(width: 25, height: 25)
                             // Usamos el color verde para simbolizar la seguridad de la ruta/lugar
-                            .foregroundColor(Color("VerdeSeguridad"))
+                            .foregroundColor(Color("MoradoComunidad"))
                             .padding(.trailing, 5)
 
                         VStack(alignment: .leading) {
@@ -26,7 +26,7 @@ struct PlacesView: View {
                                     .fontWeight(.bold)
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 3)
-                                    .background(Color("MoradoComunidad").opacity(0.2))
+                                    .background(Color("Verde").opacity(0.2))
                                     .cornerRadius(8)
 
                                 Text(place.description)
@@ -41,7 +41,7 @@ struct PlacesView: View {
                 }
             }
             .listStyle(InsetGroupedListStyle())
-            .navigationTitle("🛡️ Lugares Seguros")
+            .navigationTitle("Lugares Seguros")
         }
     }
 }

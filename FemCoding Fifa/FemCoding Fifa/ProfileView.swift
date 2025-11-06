@@ -3,6 +3,8 @@ import PhotosUI
 
 struct ProfileView: View {
     
+    @Binding var isLoggedIn: Bool
+    
     // Simulación de datos del usuario
     @State private var userName: String = "Tu Nombre (Ej: Mariela"
     @State private var userCountry: String = "México"
@@ -79,7 +81,7 @@ struct ProfileView: View {
                             Spacer()
                         }
                         .padding()
-                        .background(Color("VerdeSeguridad"))
+                        .background(.green)
                         .cornerRadius(10)
                     }
                     
@@ -97,9 +99,14 @@ struct ProfileView: View {
                 
                 // MARK: - Sección 3: Opciones
                 Section(header: Text("Ajustes")) {
-                    Label("Acerca de HerGoal", systemImage: "info.circle")
-                    Label("Cerrar Sesión", systemImage: "lock.fill")
-                }
+                                    Label("Acerca de HerGoal", systemImage: "info.circle")
+                                    
+                                    Button(role: .destructive) {
+                                        isLoggedIn = false
+                                    } label: {
+                                        Label("Cerrar Sesión", systemImage: "lock.fill")
+                                    }
+                                }
             }
             .listStyle(InsetGroupedListStyle())
             .navigationTitle("Ajustes y Utilidades")
@@ -107,8 +114,3 @@ struct ProfileView: View {
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView()
-    }
-}

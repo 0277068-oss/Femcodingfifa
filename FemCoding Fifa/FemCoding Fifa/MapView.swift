@@ -12,6 +12,8 @@ struct MapView: View {
     @State private var showingAddPlace = false
     @State private var newPlaceCoordinate: CLLocationCoordinate2D?
     @State private var mapReaderProxy: MapProxy?
+    
+    @State private var selectedPlace: SafePlace?
 
     var body: some View {
         NavigationStack {
@@ -101,16 +103,18 @@ struct MapView: View {
     
     // --- Botón de Emergencia ---
     private var emergencyButtonOverlay: some View {
-        VStack {
-            Spacer()
-            Button(action: { print("¡Alerta de Pánico Activada!") }) {
-                Text("🚨 Alerta de Emergencia")
-                    .font(.headline).foregroundColor(.white).padding()
-                    .background(Color.red).clipShape(Capsule())
+            VStack {
+                Spacer()
+                Button(action: {
+                    triggerEmergencyCall()
+                }) {
+                    Text("🚨 Alerta de Emergencia")
+                        .font(.headline).foregroundColor(.white).padding()
+                        .background(Color.red).clipShape(Capsule())
+                }
+                .padding(.bottom, 100)
             }
-            .padding(.bottom, 100)
         }
-    }
     
     @ViewBuilder
     private var addPlaceSheet: some View {
@@ -124,6 +128,39 @@ struct MapView: View {
             }
         }
     }
+
+        private func triggerEmergencyCall() {
+            // Obtiene el código de región
+            guard let countryCode = Locale.current.region?.identifier else {
+                print("No se pudo determinar la región del dispositivo.")
+                dial(number: "112")
+                return
+            }
+
+            // Busca el número en diccionario
+            if let number = AppConstants.emergencyNumbers[countryCode] {
+                        print("Región detectada: \(countryCode). Marcando: \(number)")
+                        dial(number: number)
+            } else {
+                print("Región \(countryCode) no encontrada. Marcando número universal 112.")
+                dial(number: "112")
+            }
+        }
+
+        // Abrir la app Teléfono
+        private func dial(number: String) {
+            guard let url = URL(string: "tel://\(number)") else {
+                print("Error: El número de teléfono no es válido.")
+                return
+            }
+            
+            if UIApplication.shared.canOpenURL(url) {
+                
+                UIApplication.shared.open(url)
+            } else {
+                print("Error: Este dispositivo no puede realizar llamadas.")
+            }
+        }
 }
 
 // MARK: - Vista para ingresar nuevo lugar (Tu código)

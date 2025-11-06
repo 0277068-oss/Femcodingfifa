@@ -10,6 +10,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Binding var isLoggedIn: Bool
+    
     var body: some View {
         // TabView: Contenedor principal de pestañas
         TabView {
@@ -32,19 +34,18 @@ struct ContentView: View {
                 }
 
             // Pestaña 4: Perfil / Más
-            ProfileView()
+            ProfileView(isLoggedIn: $isLoggedIn)
                 .tabItem {
                     Label("Mi Goal", systemImage: "person.circle.fill")
                 }
         }
-        // Usamos tu color MoradoComunidad para los iconos seleccionados
-        .accentColor(Color("MoradoComunidad"))
+        .accentColor(.purple)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(isLoggedIn: .constant(true))
     }
 }
-// Previews...
+

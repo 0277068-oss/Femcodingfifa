@@ -9,10 +9,17 @@ import SwiftUI
 
 @main
 struct FemCoding_FifaApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
+
+        var body: some Scene {
+            WindowGroup {
+                
+                if isLoggedIn {
+                    ContentView(isLoggedIn: $isLoggedIn)
+                } else {
+                    WelcomeView(isLoggedIn: $isLoggedIn) 
+                }
+            }
         }
-    }
 }
 

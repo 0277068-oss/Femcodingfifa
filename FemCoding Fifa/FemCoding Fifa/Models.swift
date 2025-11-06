@@ -35,6 +35,7 @@ struct Message: Identifiable {
 }
 
 // MARK: - Datos de Prueba
+// Lugares seguros
 let safePlacesData = [
     SafePlace(
         name: "Hospital Médica Sur",
@@ -66,7 +67,7 @@ let safePlacesData = [
     )
 ]
 
-// MARK: - Datos de Prueba (Simulación)
+// Miembros de la comunidad
 let communityMembers = [
     User(name: "Sofía M.", destination: "Estadio Azteca - Partido", time: "18:00", emoji: "🏟️"),
     User(name: "Elena P.", destination: "Fan Zone, Zócalo", time: "20:30", emoji: "🎉"),

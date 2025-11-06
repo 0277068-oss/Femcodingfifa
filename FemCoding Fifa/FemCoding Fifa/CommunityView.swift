@@ -3,8 +3,13 @@ import SwiftUI
 // MARK: - Vista de la Comunidad
 struct CommunityView: View {
     
-    // El evento seleccionado por el usuario (usa @State para que cambie la lista)
-    @State private var selectedEvent: String = "Estadio Lusail - Final"
+    @State private var selectedEvent: String = "Estadio Azteca - Partido"
+    
+    // Lista dinámica de destinos únicos
+    private var uniqueDestinations: [String] {
+        let destinations = communityMembers.map { $0.destination }
+        return Array(Set(destinations)).sorted()
+    }
     
     var body: some View {
         NavigationStack {
@@ -14,20 +19,19 @@ struct CommunityView: View {
                     .font(.title)
                     .bold()
                 
-                // Selector de Evento (filtros)
                 Picker("Seleccionar Evento", selection: $selectedEvent) {
-                    Text("Estadio Lusail - Final").tag("Estadio Lusail - Final")
-                    Text("Fan Zone, Corniche").tag("Fan Zone, Corniche")
-                    Text("Hotel Hilton - Check-in").tag("Hotel Hilton - Check-in")
+                    
+                    ForEach(uniqueDestinations, id: \.self) { destination in
+                        Text(destination).tag(destination)
+                    }
+                    
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .padding([.horizontal, .top])
                 
-                // Lista de Usuarias (filtrada por el evento)
                 List {
                     ForEach(communityMembers.filter { $0.destination == selectedEvent }) { member in
                         
-                        // ⭐️ CAMBIO AQUÍ: Se pasa el objeto 'member' a ChatView(withUser:)
                         NavigationLink(destination: ChatView(chatUser: member)){
                             HStack {
                                 Text(member.emoji).font(.title)
@@ -41,10 +45,8 @@ struct CommunityView: View {
                                 
                                 Spacer()
                                 
-                                // Botón de contacto (simulado)
                                 Image(systemName: "message.fill")
-                                    // Asumiendo que "MoradoComunidad" está definido en Assets
-                                    .foregroundColor(Color(red: 0.5, green: 0.3, blue: 0.8))
+                                    .foregroundColor(Color.purple)
                             }
                         }
                     }
@@ -61,3 +63,4 @@ struct CommunityView_Previews: PreviewProvider {
         CommunityView()
     }
 }
+
