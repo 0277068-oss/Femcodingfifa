@@ -5,17 +5,41 @@
 //  Created by iOS Lab UPMX on 05/11/25.
 //
 
+import SwiftUI
 import Foundation
 import MapKit
 
 // MARK: - Estructura de Datos para Lugares
-struct SafePlace: Identifiable {
+struct SafePlace: Identifiable, Hashable {
     let id = UUID()
     let name: String
     let category: String
     let description: String
     let icon: String
-    let coordinate: CLLocationCoordinate2D
+    
+    let latitude: Double
+    let longitude: Double
+    
+    var coordinate: CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+    
+    var color: Color {
+        switch category {
+        case "Personal":
+            return .pink
+        case "Servicio Básico":
+            return .blue
+        case "Lugar Seguro":
+            return Color("Verde")
+        case "Recomendación":
+            return Color("MoradoComunidad")
+        case "Alerta":
+            return .red
+        default:
+            return .gray
+        }
+    }
 }
 
 // MARK: - Estructuras de Datos
@@ -34,6 +58,32 @@ struct Message: Identifiable {
     let isCurrentUser: Bool // true si lo envió el usuario actual, false si lo envió otro
 }
 
+enum MapSelection: Identifiable, Hashable {
+    case safePlace(SafePlace)
+    case searchResult(MKMapItem)
+    
+    var id: AnyHashable {
+        switch self {
+        case .safePlace(let place): return place.id
+        case .searchResult(let item): return item
+        }
+    }
+    
+    var coordinate: CLLocationCoordinate2D {
+        switch self {
+        case .safePlace(let place): return place.coordinate
+        case .searchResult(let item): return item.placemark.coordinate
+        }
+    }
+    
+    var name: String {
+        switch self {
+        case .safePlace(let place): return place.name
+        case .searchResult(let item): return item.name ?? "Lugar"
+        }
+    }
+}
+
 // MARK: - Datos de Prueba
 // Lugares seguros
 let safePlacesData = [
@@ -42,28 +92,32 @@ let safePlacesData = [
         category: "Servicio Básico",
         description: "Servicios de emergencia 24/7. Referente en la zona sur.",
         icon: "cross.case.fill",
-        coordinate: CLLocationCoordinate2D(latitude: 19.3085, longitude: -99.1653)
+        latitude: 19.298244857593144,
+        longitude: -99.13756295268541
     ),
     SafePlace(
         name: "Centro Comercial Paseo Acoxpa",
         category: "Lugar Seguro",
         description: "Lobby de Liverpool. Bien iluminado, con seguridad y fácil de ubicar.",
         icon: "house.fill",
-        coordinate: CLLocationCoordinate2D(latitude: 19.3015, longitude: -99.1412)
+        latitude: 19.3015,
+        longitude: -99.1412
     ),
     SafePlace(
         name: "Fan Zone (Simulado) Alameda Sur",
         category: "Recomendación",
         description: "Zona de fiesta con alta vigilancia y ambiente familiar.",
         icon: "figure.walk",
-        coordinate: CLLocationCoordinate2D(latitude: 19.3130, longitude: -99.1384)
+        latitude: 19.3130,
+        longitude: -99.1384
     ),
     SafePlace(
         name: "Café 'El Rincón Azteca'",
         category: "Lugar Seguro",
         description: "Cafetería 24h cerca del estadio. Punto de encuentro.",
         icon: "cup.and.saucer.fill",
-        coordinate: CLLocationCoordinate2D(latitude: 19.3050, longitude: -99.1520)
+        latitude: 19.3050,
+        longitude: -99.1520
     )
 ]
 

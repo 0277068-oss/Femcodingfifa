@@ -57,7 +57,7 @@ struct MapButtons: View {
             }
             .buttonStyle(.bordered)
         }
-        .labelStyle(.iconOnly) // Muestra solo íconos
+        .labelStyle(.iconOnly) 
     }
     
     // --- Función de Búsqueda ---
