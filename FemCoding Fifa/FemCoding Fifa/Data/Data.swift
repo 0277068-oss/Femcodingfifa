@@ -9,87 +9,14 @@ import SwiftUI
 import Foundation
 import MapKit
 
-// MARK: - Estructura de Datos para Lugares
-struct SafePlace: Identifiable, Hashable {
-    let id = UUID()
-    let name: String
-    let category: String
-    let description: String
-    let icon: String
-    
-    let latitude: Double
-    let longitude: Double
-    
-    var coordinate: CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-    }
-    
-    var color: Color {
-        switch category {
-        case "Personal":
-            return .pink
-        case "Servicio Básico":
-            return .blue
-        case "Lugar Seguro":
-            return Color("Verde")
-        case "Recomendación":
-            return Color("MoradoComunidad")
-        case "Alerta":
-            return .red
-        default:
-            return .gray
-        }
-    }
-}
 
-// MARK: - Estructuras de Datos
-struct User: Identifiable {
-    let id = UUID()
-    let name: String
-    let destination: String
-    let time: String
-    let emoji: String
-}
+// Datos de Prueba
 
-// MARK: - 1. Estructura de Datos para Mensajes
-struct Message: Identifiable {
-    let id = UUID()
-    let text: String
-    let isCurrentUser: Bool // true si lo envió el usuario actual, false si lo envió otro
-}
-
-enum MapSelection: Identifiable, Hashable {
-    case safePlace(SafePlace)
-    case searchResult(MKMapItem)
-    
-    var id: AnyHashable {
-        switch self {
-        case .safePlace(let place): return place.id
-        case .searchResult(let item): return item
-        }
-    }
-    
-    var coordinate: CLLocationCoordinate2D {
-        switch self {
-        case .safePlace(let place): return place.coordinate
-        case .searchResult(let item): return item.placemark.coordinate
-        }
-    }
-    
-    var name: String {
-        switch self {
-        case .safePlace(let place): return place.name
-        case .searchResult(let item): return item.name ?? "Lugar"
-        }
-    }
-}
-
-// MARK: - Datos de Prueba
 // Lugares seguros
 let safePlacesData = [
     SafePlace(
         name: "Hospital Médica Sur",
-        category: "Servicio Básico",
+        category: "Servicio",
         description: "Servicios de emergencia 24/7. Referente en la zona sur.",
         icon: "cross.case.fill",
         latitude: 19.298244857593144,
@@ -97,7 +24,7 @@ let safePlacesData = [
     ),
     SafePlace(
         name: "Centro Comercial Paseo Acoxpa",
-        category: "Lugar Seguro",
+        category: "Seguro",
         description: "Lobby de Liverpool. Bien iluminado, con seguridad y fácil de ubicar.",
         icon: "house.fill",
         latitude: 19.3015,
@@ -113,7 +40,7 @@ let safePlacesData = [
     ),
     SafePlace(
         name: "Café 'El Rincón Azteca'",
-        category: "Lugar Seguro",
+        category: "Seguro",
         description: "Cafetería 24h cerca del estadio. Punto de encuentro.",
         icon: "cup.and.saucer.fill",
         latitude: 19.3050,
@@ -154,3 +81,10 @@ extension MKCoordinateRegion {
         span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     )
 }
+
+
+let availableRegions: [MapRegion] = [
+    MapRegion(name: "🇲🇽 CDMX", emoji: "🇲🇽", region: .mexicoCity),
+    MapRegion(name: "🇺🇸 NYC/NJ", emoji: "🇺🇸", region: .newYorkNewJersey),
+    MapRegion(name: "🇨🇦 Vancouver", emoji: "🇨🇦", region: .vancouver)
+]

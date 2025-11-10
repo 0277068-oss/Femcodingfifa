@@ -59,7 +59,7 @@ struct RouteCalculator {
     private func findSafestRoute(from routes: [MKRoute], allSafePlaces: [SafePlace]) -> (route: MKRoute?, isSafe: Bool) {
         
         // Obtener zonas de peligro
-        let dangerZones = allSafePlaces.filter { $0.category == "Alerta" }
+        let dangerZones = allSafePlaces.filter { $0.category == "Riesgo" }
         
         guard !dangerZones.isEmpty, let fastestRoute = routes.first else {
             return (routes.first, true) // No hay peligros, la más rápida es segura

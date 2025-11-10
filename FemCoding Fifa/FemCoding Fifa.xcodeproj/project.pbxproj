@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		480D72622EC154520042DA6E /* NaturalLanguage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 480D72612EC154520042DA6E /* NaturalLanguage.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		480D72612EC154520042DA6E /* NaturalLanguage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NaturalLanguage.framework; path = System/Library/Frameworks/NaturalLanguage.framework; sourceTree = SDKROOT; };
 		48A43C882EB9497100C705E9 /* FemCoding Fifa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FemCoding Fifa.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -23,16 +28,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				480D72622EC154520042DA6E /* NaturalLanguage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		480D72602EC154520042DA6E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				480D72612EC154520042DA6E /* NaturalLanguage.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		48A43C7F2EB9497100C705E9 = {
 			isa = PBXGroup;
 			children = (
 				48A43C8A2EB9497100C705E9 /* FemCoding Fifa */,
+				480D72602EC154520042DA6E /* Frameworks */,
 				48A43C892EB9497100C705E9 /* Products */,
 			);
 			sourceTree = "<group>";

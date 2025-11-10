@@ -15,53 +15,64 @@ struct MapButtons: View {
     
     var visibleRegion: MKCoordinateRegion?
     
+    private var hasSearchResults: Bool {
+        !searchResults.isEmpty
+    }
+    
     var body: some View {
         HStack(spacing: 12) {
             
             // --- BOTONES DE BÚSQUEDA ---
             Button {
-                search(for: "Estadios")
+                searchCategory(for: "Estadios")
             } label: {
-                Label("Estadios", systemImage: "sportscourt.fill")
+                Label("Estadios", systemImage: "sportscourt")
             }
             .buttonStyle(.borderedProminent)
             
             Button {
-                search(for: "Hoteles")
+                searchCategory(for: "Hoteles")
             } label: {
-                Label("Hoteles", systemImage: "bed.double.fill")
+                Label("Hoteles", systemImage: "bed.double")
+            }
+            .buttonStyle(.borderedProminent)
+            
+            Button {
+                searchCategory(for: "Hospitales")
+            } label: {
+                Label("Hospitales", systemImage: "cross.case")
+            }
+            .buttonStyle(.borderedProminent)
+            
+            Button {
+                searchCategory(for: "Bancos")
+            } label: {
+                Label("Bancos", systemImage: "banknote")
             }
             .buttonStyle(.borderedProminent)
             
             Spacer()
             
-            // --- BOTONES DE REGIÓN ---
-            Button {
-                position = .region(.mexicoCity)
-            } label: {
-                Label("México DF", systemImage: "m.circle.fill")
+            if hasSearchResults {
+                Button {
+                    resetSearch()
+                } label: {
+                    Label("Borrar", systemImage: "xmark.circle.fill")
+                }
+                .tint(.gray)
             }
-            .buttonStyle(.bordered)
             
-            Button {
-                position = .region(.newYorkNewJersey)
-            } label: {
-                Label("NY/NJ", systemImage: "n.circle.fill")
-            }
-            .buttonStyle(.bordered)
-            
-            Button {
-                position = .region(.vancouver)
-            } label: {
-                Label("Vancouver", systemImage: "v.circle.fill")
-            }
-            .buttonStyle(.bordered)
         }
-        .labelStyle(.iconOnly) 
+        .font(.title3)
+        .labelStyle(.iconOnly)
+    }
+    
+    func resetSearch() {
+        searchResults = []
     }
     
     // --- Función de Búsqueda ---
-    func search(for query: String) {
+    func searchCategory(for query: String) {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = query
         request.resultTypes = .pointOfInterest

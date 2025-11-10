@@ -6,8 +6,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
      
     @Published var authorizationStatus: CLAuthorizationStatus?
 
-    // --- 1. AÑADE ESTA LÍNEA ---
-    // Esta es la propiedad que tu MapView está buscando.
     @Published var location: CLLocation?
 
     override init() {

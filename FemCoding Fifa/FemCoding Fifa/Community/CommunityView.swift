@@ -5,6 +5,8 @@ struct CommunityView: View {
     
     @State private var selectedEvent: String = "Estadio Azteca - Partido"
     
+    let communityAccentColor = Color("MoradoComunidad")
+    
     // Lista dinámica de destinos únicos
     private var uniqueDestinations: [String] {
         let destinations = communityMembers.map { $0.destination }
@@ -15,9 +17,11 @@ struct CommunityView: View {
         NavigationStack {
             VStack {
                 
-                Text("👭 HerGoal: Juntas a la meta")
-                    .font(.title)
+                Text("HerGoal: Juntas a la meta")
+                    .font(.title3)
                     .bold()
+                    .foregroundColor(.primary)
+                    .padding(.top, 10)
                 
                 Picker("Seleccionar Evento", selection: $selectedEvent) {
                     
@@ -27,7 +31,8 @@ struct CommunityView: View {
                     
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                .padding([.horizontal, .top])
+                .tint(communityAccentColor)
+                .padding(.horizontal)
                 
                 List {
                     ForEach(communityMembers.filter { $0.destination == selectedEvent }) { member in
@@ -35,26 +40,44 @@ struct CommunityView: View {
                         NavigationLink(destination: ChatView(chatUser: member)){
                             HStack {
                                 Text(member.emoji).font(.title)
+                                    .frame(width: 40)
                                 
                                 VStack(alignment: .leading) {
                                     Text(member.name).font(.headline)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(communityAccentColor)
                                     Text("📍 \(member.destination) | Hora: \(member.time)")
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
                                 }
                                 
                                 Spacer()
                                 
                                 Image(systemName: "message.fill")
-                                    .foregroundColor(Color.purple)
+                                    .foregroundColor(communityAccentColor)
+                                    .font(.callout)
                             }
                         }
+                        .padding(.vertical, 8)
+                        .listRowBackground(Color(.secondarySystemGroupedBackground))
                     }
                 }
                 .listStyle(InsetGroupedListStyle())
+                .background(Color(.systemGroupedBackground))
             }
             .navigationTitle("Comunidad")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: TranslatorView()) {
+                        Text("文")
+                            .bold()
+                            .foregroundColor(communityAccentColor)
+                    }
+                }
+            }
         }
+        .tint(communityAccentColor)
     }
 }
 
